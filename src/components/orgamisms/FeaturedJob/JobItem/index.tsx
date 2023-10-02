@@ -1,16 +1,9 @@
 import { Badge } from "@/components/ui/badge";
+import { JobType } from "@/types";
 import Image from "next/image";
 import React, { FC } from "react";
 
-interface JobItemProps {
-  image: string;
-  jobType: string;
-  name: string;
-  type: string;
-  location: string;
-  description: string;
-  categories: string[];
-}
+interface JobItemProps extends JobType {}
 
 const JobItem: FC<JobItemProps> = ({
   image,
@@ -40,7 +33,13 @@ const JobItem: FC<JobItemProps> = ({
       </div>
       <div className="space-x-2 ">
         {categories.map((item: string, i: number) => (
-          <Badge key={i}>{item}</Badge>
+          <Badge
+            variant="secondary"
+            className="rounded border-primary bg-primary/5 text-primary"
+            key={i}
+          >
+            {item}
+          </Badge>
         ))}
       </div>
     </div>
