@@ -9,13 +9,18 @@ import LatestJob from "@/components/orgamisms/LatestJobs";
 
 export default function Home() {
   return (
-    <div className="px-32">
-      <Hero />
-      <Client />
-      <Category />
-      <BannerSignUp />
-      <FeaturedJob />
-      <LatestJob />
-    </div>
+    <>
+      <div className="absolute w-2/3 h-screen top-0 right-0 -z-10">
+        <Image src="/images/pattern.png" alt="pattern" fill />
+      </div>
+      <div className="px-32">
+        <Hero />
+        <Client />
+        <Category />
+        <BannerSignUp />
+        <FeaturedJob />
+        <LatestJob />
+      </div>
+    </>
   );
 }

@@ -1,3 +1,5 @@
+import { type } from "os";
+
 export type JobType = {
   image: string;
   jobType: string;
@@ -6,4 +8,17 @@ export type JobType = {
   location: string;
   description: string;
   categories: string[];
+  needs: number;
+  applicants: number;
+};
+
+export type optionType = {
+  id: string;
+  label: string;
+};
+
+export type FilterFormType = {
+  label: string;
+  name: string;
+  items: optionType[];
 };
