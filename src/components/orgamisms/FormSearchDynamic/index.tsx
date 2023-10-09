@@ -18,7 +18,7 @@ interface FormSearchDynamicProps {}
 const FormSearchDynamic: FC<FormSearchDynamicProps> = ({}) => {
   return (
     <div className="mx-auto w-max">
-      <div className="p-4 bg-background shadow-md inline-flex items-center gap-4 relative w-max z-10 text-center">
+      <div className="p-4 bg-background shadow-md inline-flex flex-col md:flex-row items-center gap-4 relative w-max z-10 text-center">
         <div className="inline-flex gap-3 items-center">
           <AiOutlineSearch className="w-6 h-6" />
           <Input
@@ -41,7 +41,7 @@ const FormSearchDynamic: FC<FormSearchDynamicProps> = ({}) => {
             </SelectContent>
           </Select>
         </div>
-        <Button>Search </Button>
+        <Button className="w-full ">Search </Button>
       </div>
       <div>
         <div className="text-muted-foreground mt-3">

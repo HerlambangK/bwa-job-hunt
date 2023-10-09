@@ -5,7 +5,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FilterFormType } from "@/types";
+import { FilterFormType, JobType } from "@/types";
 import { CATEGORIES_OPTIONS } from "@/constants";
 
 type Props = {};
@@ -15,6 +15,31 @@ const FILTER_FORMS: FilterFormType[] = [
     name: "categories",
     label: "Category",
     items: CATEGORIES_OPTIONS,
+  },
+];
+
+const dummyData: JobType[] = [
+  {
+    applicants: 1,
+    image: "/images/company2.png",
+    jobType: "Full Time",
+    location: "Jakarta Selatan",
+    name: "Full Stack",
+    type: "Agency",
+    needs: 10,
+    categories: ["Frontend", "Backend"],
+    description: "lorem",
+  },
+  {
+    applicants: 1,
+    image: "/images/company2.png",
+    jobType: "Full Time",
+    location: "Jakarta Selatan",
+    name: "Full Stack",
+    type: "Agency",
+    needs: 10,
+    categories: ["Frontend", "Backend"],
+    description: "lorem",
   },
 ];
 
@@ -34,6 +59,11 @@ const FindJobsPage = (props: Props) => {
       formFilter={formFilter}
       onSubmitFilter={onSubmitFormFilter}
       filterForms={FILTER_FORMS}
+      title="Dream Job"
+      subtitle=" Find your next career at companies like HubSpot, Nike, and Dropbox"
+      loading={false}
+      type="job"
+      data={dummyData}
     />
   );
 };

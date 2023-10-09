@@ -12,7 +12,7 @@ const TitleSection: FC<TitleSectionProps> = ({ word1, word2 }) => {
       <div className="text-4xl font-semibold">
         {word1} <span className="text-primary">{word2}</span>
       </div>
-      <div className="inline-flex gap-3 items-center text-primary font-semibild cursor-pointer">
+      <div className="inline-flex gap-3 items-center text-primary font-semibold cursor-pointer">
         <span>Show all jobs</span>
         <HiOutlineArrowCircleRight />
       </div>
