@@ -1,14 +1,22 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import React, { FC } from "react";
 import BurgerMenu from "../BurgerMenu";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import MenuAuth from "@/components/orgamisms/MenuAuth";
 
 interface NavbarProps {
   // Props dinamis Anda
 }
 
 const Navbar: FC<NavbarProps> = ({}) => {
+  const router = useRouter();
+  const { data: session } = useSession();
+  console.log(session);
+
   return (
     <header className="px-32 py-5 flex flex-row items-start justify-between lg:px-12">
       <div className="inline-flex items-center gap-12">
@@ -37,8 +45,16 @@ const Navbar: FC<NavbarProps> = ({}) => {
         </div>
       </div>
       <div className="hidden md:inline-flex items-center gap-4 h-8">
-        <Button variant="link">Login</Button>
-        <Button>Sign Up</Button>
+        {session ? (
+          <MenuAuth />
+        ) : (
+          <>
+            <Button onClick={() => router.push("/signin")} variant="link">
+              Login
+            </Button>
+            <Button>Sign Up</Button>
+          </>
+        )}
       </div>
       <div className="flex md:hidden">
         <BurgerMenu />

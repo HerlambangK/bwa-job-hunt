@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Applicants {
+  id               String  @id
+  userId           String?
+  jobId            String?
+  previousJobTitle String
+  phone            String
+  linkedin         String
+  portofolio       String
+  coverLetter      String
+  Job              Job?    @relation(fields: [jobId], references: [id])
+  User             User?   @relation(fields: [userId], references: [id])
+}
+
+model CategoryJob {
+  id   String @id
+  name String
+  Job  Job[]
+}
+
+model Company {
+  id                 String               @id
+  name               String
+  password           String
+  email              String               @unique
+  CompanyOverview    CompanyOverview[]
+  CompanySosialMedia CompanySosialMedia[]
+  CompanyTeam        CompanyTeam[]
+  Job                Job[]
+}
+
+model CompanyOverview {
+  id          String   @id
+  image       String
+  website     String
+  name        String
+  location    String
+  employee    String
+  industry    String
+  dateFounded DateTime
+  techStack   String[]
+  description String
+  companyId   String?
+  Company     Company? @relation(fields: [companyId], references: [id])
+}
+
+model CompanySosialMedia {
+  id        String   @id
+  instagram String
+  twitter   String
+  facebook  String
+  linkedin  String
+  youtube   String
+  companyId String?
+  Company   Company? @relation(fields: [companyId], references: [id])
+}
+
+model CompanyTeam {
+  id        String   @id
+  name      String
+  position  String
+  instagram String
+  linkedin  String
+  CompanyId String?
+  Company   Company? @relation(fields: [CompanyId], references: [id])
+}
+
+model Industry {
+  id   String @id
+  name String
+}
+
+model Job {
+  id             String       @id
+  roles          String
+  datePosted     DateTime     @default(now())
+  dueDate        DateTime
+  jobType        String
+  applicants     Int
+  needs          Int
+  salaryFrom     String
+  salaryTo       String
+  requiredSkills String[]
+  description    String
+  responsibility String
+  whoYouAre      String
+  niceToHave     String
+  benefits       Json
+  companyId      String?
+  categoryId     String?
+  Applicants     Applicants[]
+  CategoryJob    CategoryJob? @relation(fields: [categoryId], references: [id])
+  Company        Company?     @relation(fields: [companyId], references: [id])
+}
+
+model User {
+  id         String       @id @default(cuid())
+  name       String
+  password   String
+  email      String       @unique
+  Applicants Applicants[]
+}
