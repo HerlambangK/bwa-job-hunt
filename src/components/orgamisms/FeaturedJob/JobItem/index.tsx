@@ -12,7 +12,7 @@ const JobItem: FC<JobItemProps> = ({
   type,
   location,
   description,
-  categories,
+  category,
 }) => {
   return (
     <div className="border border-border p-6 cursor-pointer">
@@ -37,7 +37,7 @@ const JobItem: FC<JobItemProps> = ({
           variant="secondary"
           className="rounded border-primary bg-primary/5 text-primary"
         >
-          {categories?.name == null ? "Uncategorized" : categories?.name}
+          {category?.name == null ? "Uncategorized" : category?.name}
         </Badge>
       </div>
     </div>

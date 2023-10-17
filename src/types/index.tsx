@@ -12,7 +12,7 @@ export type JobType = {
   type: string;
   location: string;
   description: string;
-  categories: categoryJobType;
+  category: categoryJobType;
   needs: number;
   applicants: number;
 };
