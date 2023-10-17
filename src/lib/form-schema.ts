@@ -1,6 +1,6 @@
 import { z } from "zod";
 export const formFilterSchema = z.object({
-  categories: z.array(z.string()).min(1),
+  categories: z.array(z.string()),
 });
 
 export const formFIlterCompanySchema = z.object({

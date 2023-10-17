@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import bcrypt from 'bcryptjs'
-import { JobType, categoryJobType } from "@/types"
+import { JobType, categoryJobType, optionType } from "@/types"
 import { supabasePublicUrl } from "./supabase"
 
 
@@ -68,6 +68,7 @@ export const parsingJobs = async(
         location:item.Company?.CompanyOverview[0]?.location,
         needs:item.needs,
         type: item.CategoryJob?.name,
+        skills:item.requiredSkills
 					
       }
       return job
@@ -78,3 +79,18 @@ export const parsingJobs = async(
   }
   return []
 }
+
+
+
+export const parsingCategoriesToOptions = (data:any, isLoading:boolean, error:any) => {
+
+    if(!isLoading && !error && data){
+    return data.map((item:any)=> {
+        return{
+          id:item.id,
+          label:item.name,
+        } as optionType
+    }) as optionType[]
+  }
+  return [];
+};

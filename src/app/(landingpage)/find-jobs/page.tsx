@@ -1,47 +1,14 @@
 "use client";
 import ExploreDataContainer from "@/containers/ExploreDataContainer";
 import { formFilterSchema } from "@/lib/form-schema";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FilterFormType, JobType } from "@/types";
-import { CATEGORIES_OPTIONS } from "@/constants";
+import useCategoryJobFilter from "@/hooks/useCategoryJobFilter";
+import useJobs from "@/hooks/useJobs";
 
 type Props = {};
-
-const FILTER_FORMS: FilterFormType[] = [
-  {
-    name: "categories",
-    label: "Category",
-    items: CATEGORIES_OPTIONS,
-  },
-];
-
-const dummyData: JobType[] = [
-  {
-    applicants: 1,
-    image: "/images/company2.png",
-    jobType: "Full Time",
-    location: "Jakarta Selatan",
-    name: "Full Stack",
-    type: "Agency",
-    needs: 10,
-    categories: ["Frontend", "Backend"],
-    description: "lorem",
-  },
-  {
-    applicants: 1,
-    image: "/images/company2.png",
-    jobType: "Full Time",
-    location: "Jakarta Selatan",
-    name: "Full Stack",
-    type: "Agency",
-    needs: 10,
-    categories: ["Frontend", "Backend"],
-    description: "lorem",
-  },
-];
 
 const FindJobsPage = (props: Props) => {
   const formFilter = useForm<z.infer<typeof formFilterSchema>>({
@@ -51,19 +18,28 @@ const FindJobsPage = (props: Props) => {
     },
   });
 
-  const onSubmitFormFilter = async (val: z.infer<typeof formFilterSchema>) =>
-    console.log(val);
+  const { filters } = useCategoryJobFilter();
 
+  const [categories, setCategories] = useState<string[]>([]);
+  const { jobs, isLoading, mutate } = useJobs(categories);
+
+  const onSubmitFormFilter = async (val: z.infer<typeof formFilterSchema>) => {
+    setCategories(val.categories);
+  };
+
+  useEffect(() => {
+    mutate();
+  }, [categories]);
   return (
     <ExploreDataContainer
       formFilter={formFilter}
       onSubmitFilter={onSubmitFormFilter}
-      filterForms={FILTER_FORMS}
+      filterForms={filters}
       title="Dream Job"
       subtitle=" Find your next career at companies like HubSpot, Nike, and Dropbox"
-      loading={false}
+      loading={isLoading}
       type="job"
-      data={dummyData}
+      data={jobs}
     />
   );
 };
