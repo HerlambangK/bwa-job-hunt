@@ -1,9 +1,9 @@
 import Navbar from "@/components/layouts/Navbar";
-import "../globals.css";
+import Footer from "@/components/layouts/Footer";
 import type { Metadata } from "next";
 import { Epilogue } from "next/font/google";
+import "../globals.css";
 import Image from "next/image";
-import Footer from "@/components/layouts/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import AuthProvider from "@/providers/AuthProvoder";
 
@@ -26,6 +26,7 @@ export default function RootLayout({
           <Navbar />
           <main>
             {/* <div className="w-full h-screen absolute top-0 -z-10" /> */}
+            {children}
           </main>
           <Footer />
           <Toaster />
