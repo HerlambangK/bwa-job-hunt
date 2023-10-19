@@ -1,10 +1,12 @@
 "use client";
 import { CATEGORIES_OPTIONS } from "@/constants";
 import ExploreDataContainer from "@/containers/ExploreDataContainer";
+import useCategoryCompanyFilter from "@/hooks/useCategoryCompanyFilter";
+import useCompanies from "@/hooks/useCompanies";
 import { formFIlterCompanySchema } from "@/lib/form-schema";
 import { CompanyType, FilterFormType } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
@@ -56,20 +58,29 @@ const FindCompanyPage: FC<FindCompanyPageProps> = ({}) => {
       industry: [],
     },
   });
+  const [categories, setCategories] = useState<string[]>([]);
+  const { filters } = useCategoryCompanyFilter();
 
-  const onsubmit = async (val: z.infer<typeof formFIlterCompanySchema>) =>
-    console.log(val);
+  const { companies, isLoading, mutate } = useCompanies(categories);
+
+  const onsubmit = async (val: z.infer<typeof formFIlterCompanySchema>) => {
+    setCategories(val.industry);
+  };
+
+  useEffect(() => {
+    mutate();
+  }, [categories]);
 
   return (
     <ExploreDataContainer
       formFilter={formFilter}
       onSubmitFilter={onsubmit}
-      filterForms={FILTER_FORMS}
+      filterForms={filters}
       title="Dream Job"
       subtitle=" Find your next career at companies like HubSpot, Nike, and Dropbox"
-      loading={false}
+      loading={isLoading}
       type="company"
-      data={dataDummy}
+      data={companies}
     />
   );
 };

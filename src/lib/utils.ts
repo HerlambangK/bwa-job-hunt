@@ -1,8 +1,9 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import bcrypt from 'bcryptjs'
-import { JobType, categoryJobType, optionType } from "@/types"
+import { CompanyType, JobType, categoryJobType, optionType } from "@/types"
 import { supabasePublicUrl } from "./supabase"
+import dayjs from 'dayjs'
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -81,16 +82,69 @@ export const parsingJobs = async(
 }
 
 
+export const parsingCompanies = async(
+  data:any, 
+  isLoading:boolean, 
+  error:any
+) => {
+  if (!isLoading && !error && data){
+    return await Promise.all(
+      data.map(async(item:any) => {
+        let imageName = item.CompanyOverview[0]?.image
+        let ImageUrl ;
 
-export const parsingCategoriesToOptions = (data:any, isLoading:boolean, error:any) => {
+        if(imageName){
+          ImageUrl = await supabasePublicUrl(imageName, 'company')
+        }else{
+          ImageUrl = '/images/company.png'
+        }
+
+        const companyDetail = item.CompanyOverview[0]
+      const company:CompanyType ={
+        id:item.id,
+        name:companyDetail?.name,
+        image:ImageUrl,
+        dateFounded:companyDetail?.dateFounded,
+        description:companyDetail?.description,
+        employee:companyDetail?.employee,
+        industry:companyDetail?.industry,
+        location:companyDetail?.location,
+        techStack:companyDetail?.techStack,
+        website:companyDetail?.website,
+        sosmed:item.CompanySosialMedia[0],
+				teams:item.CompanyTeam,
+        totalJobs:item._count.Job
+      }
+      return company
+    }) 
+    )
+    
+    
+  }
+  return []
+}
+
+
+
+
+export const parsingCategoriesToOptions = ( 
+  data:any, 
+  isLoading:boolean, 
+  error:any , 
+  isIndustry?:boolean) => {
 
     if(!isLoading && !error && data){
     return data.map((item:any)=> {
         return{
-          id:item.id,
+          id: isIndustry ? item.name : item.id,
           label:item.name,
         } as optionType
     }) as optionType[]
   }
   return [];
 };
+
+
+export const dateFormat = (date:Date | string , format:string = 'DD MMMM YYYY') => {
+  return dayjs(date).format(format)
+}

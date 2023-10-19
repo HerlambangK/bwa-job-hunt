@@ -5,7 +5,7 @@ import { comparePassword } from "@/lib/utils";
 import NextAuth from "next-auth/next";
 
 export const authOptions: NextAuthOptions = {
-  secret: process.env.NEXTAUTH_URL,
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: "Credentials",

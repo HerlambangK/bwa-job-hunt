@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { fontApplySchema } from "@/lib/form-schema";
+import { formApplySchema } from "@/lib/form-schema";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
@@ -27,16 +27,79 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import UploadField from "../UploadField";
+import { useSession } from "next-auth/react";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { supabaseUploadFile } from "@/lib/supabase";
 
-interface FormModalApplyProps {}
+interface FormModalApplyProps {
+  image: string | undefined;
+  roles: string | undefined;
+  location: string | undefined;
+  jobType: string | undefined;
+  id: string | undefined;
+  isApply: number | undefined;
+}
 
-const FormModalApply: FC<FormModalApplyProps> = ({}) => {
-  const form = useForm<z.infer<typeof fontApplySchema>>({
-    resolver: zodResolver(fontApplySchema),
+const FormModalApply: FC<FormModalApplyProps> = ({
+  image,
+  jobType,
+  location,
+  roles,
+  id,
+  isApply,
+}) => {
+  const form = useForm<z.infer<typeof formApplySchema>>({
+    resolver: zodResolver(formApplySchema),
   });
 
-  const onSubmit = (val: z.infer<typeof fontApplySchema>) => {
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const { data: session } = useSession();
+
+  const onSubmit = async (val: z.infer<typeof formApplySchema>) => {
     console.log(val);
+    try {
+      const { filename, error } = await supabaseUploadFile(
+        val.resume,
+        "applicant"
+      );
+
+      const reqData = {
+        userId: session?.user.id,
+        jobId: id,
+        resume: filename,
+        coverLetter: val.coverLetter,
+        linkedIn: val.LinkedIn,
+        phone: val.phone,
+        portfolio: val.LinkedIn,
+        previousJobTitle: val.previousJobTitle,
+      };
+
+      if (error) {
+        throw "Error";
+      }
+
+      await fetch("/api/jobs/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(reqData),
+      });
+
+      await toast({
+        title: "Success",
+        description: "Apply job success",
+      });
+
+      router.replace("/");
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Error",
+        description: "Please try again",
+      });
+    }
   };
   return (
     <Dialog>
@@ -49,16 +112,12 @@ const FormModalApply: FC<FormModalApplyProps> = ({}) => {
         <div>
           <div className="inlane-flex items-center gap-4">
             <div>
-              <Image
-                src={"/images/company2.png"}
-                alt="/images/company2.png"
-                width={60}
-                height={60}
-              />
-              <div className="text-lg font-semibold">
-                Sosial Media Assistant
+              <Image src={image!!} alt={image!!} width={60} height={60} />
+              <div className="text-lg font-semibold">{roles}</div>
+              <div className="text-gray-500">
+                {" "}
+                {location} - {jobType}
               </div>
-              <div className="text-gray-500">Agency . Jakata - Fulltime</div>
             </div>
           </div>
           <Separator className="my-5" />

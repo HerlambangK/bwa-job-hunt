@@ -7,7 +7,7 @@ export const formFIlterCompanySchema = z.object({
   industry: z.array(z.string()),
 });
 
-export const fontApplySchema = z.object({
+export const formApplySchema = z.object({
   resume: z.any().refine((file: any) => file?.name, "Please upload resume"),
   fullname: z
     .string({ required_error: "Fullname is required" })
