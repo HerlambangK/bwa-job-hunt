@@ -72,7 +72,7 @@ async function getDetailJob(id: string) {
 const DetailJobPage = async ({ params }: { params: { id: string } }) => {
   const data = await getDetailJob(params.id);
   const session = await getServerSession(authOptions);
-  console.log(data);
+  // console.log(data);
 
   return (
     <>
