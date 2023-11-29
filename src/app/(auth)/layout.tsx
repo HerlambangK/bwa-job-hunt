@@ -9,8 +9,8 @@ import { Toaster } from "@/components/ui/toaster";
 const epilogue = Epilogue({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "BKN Portal",
-  description: "Selamat Datang",
+  title: "JOB HUNT",
+  description: "Cari job mu Disini",
 };
 
 export default function RootLayout({
@@ -20,10 +20,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${epilogue.className} md:relative overflow-x-hidden `}>
-        <main className="grid grid-cols-1 md:grid-cols-2">
-          <div className="relative md:h-screen w-full h-[40vh]">
-            <div className="absolute w-full md:h-full h-[40vh] md:blur-0 blur-sm">
+      <body className={`${epilogue.className} relative overflow-x-hidden`}>
+        <main className="grid grid-cols-2">
+          <div className="relative h-screen">
+            <div className="absolute w-full h-full">
               <Image
                 src={"/images/bg-auth.png"}
                 alt="/images/bg-auth.png"
@@ -34,7 +34,7 @@ export default function RootLayout({
             </div>
           </div>
           <div className="w-full relative">
-            <div className="absolute md:top-1/2  left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="absolute top-1/2  left-1/2 -translate-x-1/2 -translate-y-1/2">
               {children}
             </div>
           </div>

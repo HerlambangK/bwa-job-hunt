@@ -12,6 +12,45 @@ import z from "zod";
 
 interface FindCompanyPageProps {}
 
+const FILTER_FORMS: FilterFormType[] = [
+  {
+    name: "industry",
+    label: "Industry",
+    items: CATEGORIES_OPTIONS,
+  },
+];
+
+const dataDummy: CompanyType[] = [
+  {
+    image: "/images/company2.png",
+    totalJobs: 100,
+    categories: "Backend",
+    description: "Deskription",
+    name: "Backend Developer",
+  },
+  {
+    image: "/images/company2.png",
+    totalJobs: 100,
+    categories: "Backend",
+    description: "Deskription",
+    name: "Backend Developer",
+  },
+  {
+    image: "/images/company2.png",
+    totalJobs: 100,
+    categories: "Backend",
+    description: "Deskription",
+    name: "Backend Developer",
+  },
+  {
+    image: "/images/company2.png",
+    totalJobs: 100,
+    categories: "Backend",
+    description: "Deskription",
+    name: "Backend Developer",
+  },
+];
+
 const FindCompanyPage: FC<FindCompanyPageProps> = ({}) => {
   const formFilter = useForm<z.infer<typeof formFIlterCompanySchema>>({
     resolver: zodResolver(formFIlterCompanySchema),
@@ -30,7 +69,7 @@ const FindCompanyPage: FC<FindCompanyPageProps> = ({}) => {
 
   useEffect(() => {
     mutate();
-  }, [categories, mutate]);
+  }, [categories]);
 
   return (
     <ExploreDataContainer

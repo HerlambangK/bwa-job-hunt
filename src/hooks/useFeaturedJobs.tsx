@@ -16,7 +16,7 @@ const useFeaturedJobs = () => {
 
   useEffect(() => {
     parseJob();
-  }, [data, isLoading, error, parseJob]);
+  }, [data, isLoading, error]);
 
   return {
     jobs,

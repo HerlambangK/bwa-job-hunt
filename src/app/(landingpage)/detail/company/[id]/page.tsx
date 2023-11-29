@@ -30,8 +30,6 @@ interface DetailCompanyPageProps {
   params: params;
 }
 
-export const revalidate = 0;
-
 async function getDetailCompany(id: string) {
   const data = await prisma.company.findFirst({
     where: {
@@ -71,7 +69,7 @@ const DetailCompanyPage: FC<DetailCompanyPageProps> = async ({ params }) => {
 
   return (
     <>
-      {data && data.CompanyOverview && (
+      {data && (
         <>
           <div className="bg-slate-100 px-32 pt-16 pb-14">
             <div className="inline-flex gap-3 text-sm text-muted-foreground ">
@@ -107,7 +105,7 @@ const DetailCompanyPage: FC<DetailCompanyPageProps> = async ({ params }) => {
                     <span className="text-4xl font-semibold">
                       {data?.CompanyOverview[0]?.name}
                     </span>
-                    <Badge>{data?._count?.Job} Job</Badge>
+                    <Badge>{data?._count.Job} Job</Badge>
                   </div>
                   <div className="mt-2">
                     <Link href={"/"} className="font-semibold text-primary">
@@ -186,31 +184,29 @@ const DetailCompanyPage: FC<DetailCompanyPageProps> = async ({ params }) => {
                   }}
                 ></div>
               </div>
-              {data.CompanySosialMedia && (
-                <div>
-                  <div className="text-3xl font-semibold mb-4">Contact</div>
-                  <div className="flex items-center gap-5 w-[400px] flex-wrap">
-                    <div className="p-2 border border-primary text-primary w-max inline-flex items-center gap-3 font-semibold">
-                      <FacebookIcon />
-                      <span className="text-sm">
-                        {data?.CompanySosialMedia[0]?.facebook}
-                      </span>
-                    </div>
-                    <div className="p-2 border border-primary text-primary w-max inline-flex items-center gap-3 font-semibold">
-                      <TwitterIcon />
-                      <span className="text-sm">
-                        {data?.CompanySosialMedia[0]?.twitter}
-                      </span>
-                    </div>
-                    <div className="p-2 border border-primary text-primary w-max inline-flex items-center gap-3 font-semibold">
-                      <LinkedinIcon />
-                      <span className="text-sm">
-                        {data?.CompanySosialMedia[0]?.linkedin}
-                      </span>
-                    </div>
+              <div>
+                <div className="text-3xl font-semibold mb-4">Contact</div>
+                <div className="flex items-center gap-5 w-[400px] flex-wrap">
+                  <div className="p-2 border border-primary text-primary w-max inline-flex items-center gap-3 font-semibold">
+                    <FacebookIcon />
+                    <span className="text-sm">
+                      {data?.CompanySosialMedia[0]?.facebook}
+                    </span>
+                  </div>
+                  <div className="p-2 border border-primary text-primary w-max inline-flex items-center gap-3 font-semibold">
+                    <TwitterIcon />
+                    <span className="text-sm">
+                      {data?.CompanySosialMedia[0]?.twitter}
+                    </span>
+                  </div>
+                  <div className="p-2 border border-primary text-primary w-max inline-flex items-center gap-3 font-semibold">
+                    <LinkedinIcon />
+                    <span className="text-sm">
+                      {data?.CompanySosialMedia[0]?.linkedin}
+                    </span>
                   </div>
                 </div>
-              )}
+              </div>
             </div>
             <div className="w-1/4">
               <div className="text-3xl font-semibold mb-4">Tech Stack</div>
@@ -228,37 +224,32 @@ const DetailCompanyPage: FC<DetailCompanyPageProps> = async ({ params }) => {
               </div>
             </div>
           </div>
-          {data.CompanyTeam && (
-            <div className="px-32">
-              <Separator />
-              <div className="my-16">
-                <div className="text-3xl font-semibold mb-4">Teams</div>
-                <div className="grid grid-cols-5 gap-5 mt-5">
-                  {data.CompanyTeam.map((data: CompanyTeam) => (
-                    <div
-                      key={data.id}
-                      className="border border-border px-3 py-5"
-                    >
-                      <div className="w-16 h-16 rounded-full mx-auto bg-gray-300" />
-                      <div className="text-center my-4 ">
-                        <div className="font-semibold text-sm">{data.name}</div>
-                        <div className="text-gray-500 text-xs">
-                          {data.position}
-                        </div>
-                      </div>
-                      <div className="mx-auto w-max">
-                        <div className="inline-flex gap-2">
-                          <InstagramIcon className="w-4 h-4 text-gray-500" />
-                          <LinkedinIcon className="w-4 h-4 text-gray-500" />
-                        </div>
+          <div className="px-32">
+            <Separator />
+            <div className="my-16">
+              <div className="text-3xl font-semibold mb-4">Teams</div>
+              <div className="grid grid-cols-5 gap-5 mt-5">
+                {data.CompanyTeam.map((data: CompanyTeam) => (
+                  <div key={data.id} className="border border-border px-3 py-5">
+                    <div className="w-16 h-16 rounded-full mx-auto bg-gray-300" />
+                    <div className="text-center my-4 ">
+                      <div className="font-semibold text-sm">{data.name}</div>
+                      <div className="text-gray-500 text-xs">
+                        {data.position}
                       </div>
                     </div>
-                  ))}
-                </div>
+                    <div className="mx-auto w-max">
+                      <div className="inline-flex gap-2">
+                        <InstagramIcon className="w-4 h-4 text-gray-500" />
+                        <LinkedinIcon className="w-4 h-4 text-gray-500" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <Separator />
             </div>
-          )}
+            <Separator />
+          </div>
         </>
       )}
       <div className="px-32 mt-16">

@@ -8,15 +8,11 @@ interface HeroProps {
 
 const Hero: FC<HeroProps> = ({}) => {
   return (
-    <div className="container flex flex-col md:flex-row justify-between items-center">
-      <div className="w-full md:w-1/2">
-        <div className="hidden text-4xl mt-5 md:text-7xl font-semibold text-slate-600 w-max relative">
+    <div className="flex flex-row justify-between items-center">
+      <div className="w-1/2">
+        <div className="text-7xl font-semibold text-slate-600 w-max relative">
           Discover <br />
           More than <br /> <span className="text-primary">5000+ Jobs</span>
-        </div>
-        <div className="text-4xl mt-5 md:text-7xl font-bold text-slate-600 w-full relative">
-          Discover More than <br />{" "}
-          <span className="text-primary">5000+ Jobs</span>
         </div>
         <Image
           src={"/images/pattern2.png"}
@@ -31,13 +27,12 @@ const Hero: FC<HeroProps> = ({}) => {
         </div>
         <FormSearch />
       </div>
-      <div className="block mt-2 ">
+      <div className="block mt-2">
         <Image
           src={"/images/hero.png"}
           alt="hero"
-          width={500}
-          height={100}
-          layout="responsive"
+          width={501}
+          height={710}
           objectFit="contain"
         />
       </div>

@@ -3,6 +3,7 @@ import Footer from "@/components/layouts/Footer";
 import type { Metadata } from "next";
 import { Epilogue } from "next/font/google";
 import "../globals.css";
+import Image from "next/image";
 import { Toaster } from "@/components/ui/toaster";
 import AuthProvider from "@/providers/AuthProvoder";
 
@@ -20,12 +21,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${epilogue.className} mt-29 md:relative md:overflow-x-hidden`}
-      >
+      <body className={`${epilogue.className} relative overflow-x-hidden`}>
         <AuthProvider>
           <Navbar />
-          <main>{children}</main>
+          <main>
+            {/* <div className="w-full h-screen absolute top-0 -z-10" /> */}
+            {children}
+          </main>
           <Footer />
           <Toaster />
         </AuthProvider>

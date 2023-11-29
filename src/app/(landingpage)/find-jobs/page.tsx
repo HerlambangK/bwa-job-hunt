@@ -29,7 +29,7 @@ const FindJobsPage = (props: Props) => {
 
   useEffect(() => {
     mutate();
-  }, [categories, mutate]);
+  }, [categories]);
   return (
     <ExploreDataContainer
       formFilter={formFilter}

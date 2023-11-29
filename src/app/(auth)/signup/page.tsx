@@ -29,7 +29,7 @@ const SignUpPage: FC<SignUpPageProps> = ({}) => {
   const router = useRouter();
 
   const onSubmit = async (val: z.infer<typeof formSignUpSchema>) => {
-    console.log(val);
+    // console.log(val);
     try {
       await fetch("/api/user", {
         method: "POST",

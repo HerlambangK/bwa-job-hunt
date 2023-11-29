@@ -13,10 +13,10 @@ model Applicants {
   jobId            String?
   previousJobTitle String
   phone            String
-  coverLetter      String
-  resume           String
   linkedIn         String
   portfolio        String
+  coverLetter      String
+  resume           String
   Job              Job?    @relation(fields: [jobId], references: [id])
   User             User?   @relation(fields: [userId], references: [id])
 }
@@ -107,31 +107,5 @@ model User {
   name       String
   password   String
   email      String       @unique
-  isAdmin    Boolean
   Applicants Applicants[]
-}
-
-model Pegawai {
-  id              Int           @id @default(autoincrement())
-  nama            String
-  alamat          String
-  tanggalLahir    DateTime
-  unitKerja       UnitKerja     @relation(fields: [unitKerjaId], references: [id])
-  posisiJabatan   PosisiJabatan @relation(fields: [posisiJabatanId], references: [id])
-  unitKerjaId     Int
-  posisiJabatanId Int
-}
-
-model UnitKerja {
-  id        Int       @id @default(autoincrement())
-  nama      String
-  deskripsi String
-  Pegawai   Pegawai[]
-}
-
-model PosisiJabatan {
-  id         Int       @id @default(autoincrement())
-  namaPosisi String
-  deskripsi  String
-  Pegawai    Pegawai[]
 }

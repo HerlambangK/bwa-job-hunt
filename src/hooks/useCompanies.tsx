@@ -31,7 +31,7 @@ const useCompanies = (filter?: string[]) => {
 
   useEffect(() => {
     parseJobs();
-  }, [data, isLoading, error, parseJobs]);
+  }, [data, isLoading, error]);
 
   return {
     companies,
