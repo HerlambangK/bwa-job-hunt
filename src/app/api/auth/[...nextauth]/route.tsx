@@ -4,7 +4,13 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "../../../../../lib/prisma";
 import { comparePassword } from "@/lib/utils";
 import NextAuth from "next-auth/next";
+import { Router } from "next/router";
+export type User = {
+  id: number;
+  email: string;
 
+  isAdmin: boolean;
+};
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
@@ -27,6 +33,9 @@ export const authOptions: NextAuthOptions = {
         if (!user) {
           return null;
         }
+        // if (user.isAdmin) {
+        //   return Router.push("/admin");
+        // }
 
         const isMatch = await comparePassword(
           credentials?.password!!,
@@ -34,7 +43,13 @@ export const authOptions: NextAuthOptions = {
         );
 
         if (isMatch) {
-          return user;
+          if (user.isAdmin) {
+            // Gunakan properti Redirect untuk mengarahkan ke /admin
+            return Promise.resolve({ Redirect: "/dashboard-admin" });
+          } else {
+            return user;
+          }
+          // return user;
         } else {
           return null;
         }
@@ -50,6 +65,7 @@ export const authOptions: NextAuthOptions = {
     jwt({ token, account, user }) {
       if (account) {
         token.id = user.id;
+        // token.isAdmin = user.isAdmin;
       }
 
       return token;

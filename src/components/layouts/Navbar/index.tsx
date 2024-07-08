@@ -1,65 +1,92 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { SessionProvider } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { FC } from "react";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import ButtonSession from "../ButtonSession";
 import BurgerMenu from "../BurgerMenu";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
-import MenuAuth from "@/components/orgamisms/MenuAuth";
+// import { BurgerMenu } from "./burgermenu";
+// import ButtonSession from "./button-session";
 
-interface NavbarProps {
-  // Props dinamis Anda
-}
+const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const pathName = usePathname();
 
-const Navbar: FC<NavbarProps> = ({}) => {
-  const router = useRouter();
-  const { data: session } = useSession();
-  // console.log(session);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // if (pathName === "/login") {
+  if (pathName === "/signin") {
+    return null;
+  }
 
   return (
-    <header className="px-32 py-5 flex flex-row items-start justify-between lg:px-12">
-      <div className="inline-flex items-center gap-12">
-        <Link href={"/"}>
+    <SessionProvider>
+      <div
+        className={cn(
+          "fixed inset-x-0 top-0 z-10 flex justify-between bg-white p-4 transition lg:px-12",
+          isScrolled ? "shadow-sm bg-white" : ""
+        )}
+      >
+        <Link href="/" className="inline-flex">
           <Image
-            src={"/images/logo2.png"}
-            alt="logo2"
-            width={160}
+            alt="/public/images/logo.png"
+            src={"/images/logo.png"}
+            width={175}
             height={100}
+            className="w-24 object-contain lg:w-32 xl:w-40"
           />
         </Link>
 
-        <div className="hidden  items-center gap-4 md:inline-flex">
-          <Link
-            href={"/find-jobs"}
-            className="font-medium text-gray-400 mr-4 cursor-pointer "
+        <div className="hidden bg-white items-center gap-4 md:inline-flex">
+          {/* <Link
+            disable
+            href="/about"
+            className={cn(
+              "rounded-lg px-3 py-2 text-sm font-semibold hover:bg-zinc-100 disabled:cursor-not-allowed ",
+              pathName === "/about" && "bg-zinc-100"
+            )}
           >
-            Find Jobs
+            About
+          </Link> */}
+          <Link
+            href="/find-company"
+            className={cn(
+              "rounded-lg px-3 py-2 text-sm font-semibold hover:bg-zinc-100",
+              pathName === "/find-company" && "bg-zinc-100"
+            )}
+          >
+            Publikasi
           </Link>
           <Link
-            href={"/find-company"}
-            className="font-medium text-gray-400 cursor-pointer "
+            href="/find-jobs"
+            className={cn(
+              "rounded-lg px-3 py-2 text-sm font-semibold hover:bg-zinc-100",
+              pathName === "/find-jobs" && "bg-zinc-100"
+            )}
           >
-            Browse Companies
+            Cari kerja
           </Link>
+          <ButtonSession />
+        </div>
+        <div className="flex md:hidden">
+          <BurgerMenu />
         </div>
       </div>
-      <div className="hidden md:inline-flex items-center gap-4 h-8">
-        {session ? (
-          <MenuAuth />
-        ) : (
-          <>
-            <Button onClick={() => router.push("/signin")} variant="link">
-              Login
-            </Button>
-            <Button onClick={() => router.push("/signup")}>Sign Up</Button>
-          </>
-        )}
-      </div>
-      <div className="flex md:hidden">
-        <BurgerMenu />
-      </div>
-    </header>
+    </SessionProvider>
   );
 };
 

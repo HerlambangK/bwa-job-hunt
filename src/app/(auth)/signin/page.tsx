@@ -49,10 +49,9 @@ const SignInPage: FC<SignInPageProps> = ({}) => {
   };
   return (
     <>
-      <div className="text-3xl font-semibold text-center mb-7">
-        Welcome Back, Dude
+      <div className="text-xl md:text-3xl font-semibold text-center mb-7">
+        Welcome Create your account
       </div>
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <FormField

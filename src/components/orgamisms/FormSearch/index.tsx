@@ -18,18 +18,18 @@ interface FormSearchProps {
 const FormSearch: FC<FormSearchProps> = ({}) => {
   return (
     <>
-      <div className="mt-6 p-4 bg-background shadow-md inline-flex items-center gap-4 relative w-max z-10">
+      <div className="mt-12 md:mt-6 p-4 bg-background shadow-md  md:inline-flex items-center gap-4 md:relative w-max  ">
         <div className="inline-flex gap-3 items-center">
           <AiOutlineSearch className="w-6 h-6" />
           <Input
-            className="py-8 w-[300px] border-none"
+            className="md:py-8 md:w-[300px] border-none"
             placeholder="Job Title or Keyword"
           />
         </div>
-        <div className="inline-flex gap-3 items-center">
+        <div className="mt-4 inline-flex gap-3 items-center">
           <HiOutlineLocationMarker className="w-6 h-6" />
           <Select>
-            <SelectTrigger className="w-[300px] text-gray-500 py-8 border-none outline-none ">
+            <SelectTrigger className="px-12 md:py-8 md:w-[300px] text-gray-500 border-none outline-none ">
               <SelectValue placeholder="Select a Location" />
             </SelectTrigger>
             <SelectContent>
