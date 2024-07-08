@@ -12,24 +12,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 
-<<<<<<< HEAD
 export default function HomePage() {
-=======
-export default function Home() {
-  const { data: session } = useSession();
-
-  const router = useRouter();
-  console.log("data", session);
-
-  // useEffect(() => {
-  //   // Gunakan useEffect untuk melakukan navigasi berdasarkan isAdmin
-  //   if (isAdmin) {
-  //     router.push("/admin");
-  //   } else {
-  //     router.push("/");
-  //   }
-  // }, [isAdmin, router]);
->>>>>>> 0aad23f63abe74e079eca1b7ab847dbce9e7e745
   return (
     <>
       <div className=" container md:absolute md:w-2/3 md:h-screen md:top-0 md:right-0 md:-z-10">
