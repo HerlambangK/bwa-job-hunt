@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Applicants {
@@ -13,10 +14,10 @@ model Applicants {
   jobId            String?
   previousJobTitle String
   phone            String
-  linkedIn         String
-  portfolio        String
   coverLetter      String
   resume           String
+  linkedIn         String
+  portfolio        String
   Job              Job?    @relation(fields: [jobId], references: [id])
   User             User?   @relation(fields: [userId], references: [id])
 }
@@ -39,7 +40,7 @@ model Company {
 }
 
 model CompanyOverview {
-  id          String   @id
+  id          String      @id
   image       String
   website     String
   name        String
@@ -47,10 +48,18 @@ model CompanyOverview {
   employee    String
   industry    String
   dateFounded DateTime
-  techStack   String[]
+  // techStack   String[]
   description String
   companyId   String?
-  Company     Company? @relation(fields: [companyId], references: [id])
+  Company     Company?    @relation(fields: [companyId], references: [id])
+  techStacks  TechStack[]
+}
+
+model TechStack {
+  id                String          @id @default(cuid())
+  technology        String
+  companyOverviewId String
+  CompanyOverview   CompanyOverview @relation(fields: [companyOverviewId], references: [id])
 }
 
 model CompanySosialMedia {
@@ -80,16 +89,16 @@ model Industry {
 }
 
 model Job {
-  id             String       @id
+  id             String          @id
   roles          String
-  datePosted     DateTime     @default(now())
+  datePosted     DateTime        @default(now())
   dueDate        DateTime
   jobType        String
   applicants     Int
   needs          Int
   salaryFrom     String
   salaryTo       String
-  requiredSkills String[]
+  // requiredSkills String[]
   description    String
   responsibility String
   whoYouAre      String
@@ -98,8 +107,16 @@ model Job {
   companyId      String?
   categoryId     String?
   Applicants     Applicants[]
-  CategoryJob    CategoryJob? @relation(fields: [categoryId], references: [id])
-  Company        Company?     @relation(fields: [companyId], references: [id])
+  CategoryJob    CategoryJob?    @relation(fields: [categoryId], references: [id])
+  Company        Company?        @relation(fields: [companyId], references: [id])
+  requiredSkills RequiredSkill[]
+}
+
+model RequiredSkill {
+  id    String @id @default(cuid())
+  skill String
+  jobId String
+  Job   Job    @relation(fields: [jobId], references: [id])
 }
 
 model User {

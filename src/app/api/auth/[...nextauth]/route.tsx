@@ -1,4 +1,5 @@
 import { NextAuthOptions } from "next-auth";
+
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "../../../../../lib/prisma";
 import { comparePassword } from "@/lib/utils";
@@ -10,7 +11,10 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "text" },
+        email: {
+          label: "Email",
+          type: "text",
+        },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
@@ -28,6 +32,7 @@ export const authOptions: NextAuthOptions = {
           credentials?.password!!,
           user.password
         );
+
         if (isMatch) {
           return user;
         } else {
@@ -36,7 +41,6 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-
   pages: {
     signIn: "/signin",
     error: "/auth/error",
@@ -52,6 +56,7 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       session.user.id = token.id;
+
       return session;
     },
   },

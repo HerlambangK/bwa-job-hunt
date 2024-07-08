@@ -14,14 +14,13 @@ const useJobs = (filter?: string[]) => {
     return "";
   }, [filter]);
 
-  const {
-    data,
-    error,
-    isLoading,
-    mutate,
-  } = useSWR(`${JOB_PATH}?category=${paramsCategory}`, fetcher, {
-    revalidateOnMount: false,
-  });
+  const { data, error, isLoading, mutate } = useSWR(
+    `${JOB_PATH}?category=${paramsCategory}`,
+    fetcher,
+    {
+      revalidateOnMount: false,
+    }
+  );
 
   const [jobs, setJobs] = useState<JobType[]>([]);
 
@@ -32,7 +31,7 @@ const useJobs = (filter?: string[]) => {
 
   useEffect(() => {
     parseJobs();
-  }, [data, isLoading, error]);
+  }, [data, isLoading, error, parseJobs]);
 
   return {
     jobs,

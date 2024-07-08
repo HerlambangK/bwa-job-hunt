@@ -7,7 +7,7 @@ import BannerSignUp from "@/components/orgamisms/BannerSignUp";
 import FeaturedJob from "@/components/orgamisms/FeaturedJob";
 import LatestJob from "@/components/orgamisms/LatestJobs";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <>
       <div className="absolute w-2/3 h-screen top-0 right-0 -z-10">

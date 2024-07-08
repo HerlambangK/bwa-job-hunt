@@ -36,7 +36,7 @@ const SignInPage: FC<SignInPageProps> = ({}) => {
       redirect: false,
     });
 
-    console.log(authenticated);
+    // console.log(authenticated);
     if (authenticated?.error) {
       toast({
         title: "Sign In Failed",
